@@ -1,3 +1,6 @@
+
+// music app ui by nhom 9
+
 import * as React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { View ,LogBox } from 'react-native';
