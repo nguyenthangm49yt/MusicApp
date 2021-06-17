@@ -1,10 +1,10 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, SafeAreaView, ScrollView,TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, Image, SafeAreaView, ScrollView,TouchableOpacity, Alert} from 'react-native';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../Profile/styles'
 import { useNavigation } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {  URL} from '../../utils';
  
 import useAxios from 'axios-hooks'
@@ -29,12 +29,31 @@ const Action = ({title, iconame, color}) => {
 export default function Setting()  {
     const navigation = useNavigation();
     const handleBack = () => {
-        // TODO: Firebase stuff...
+        // TODO: 
         navigation.goBack();
       }
+    
+    
       const signout = () => {
-        // TODO: Firebase stuff...
-       console.log('s')
+
+        Alert.alert(
+            "Will you log out",
+            "Are you sure?",
+            [
+            {
+                text: "Cancel",
+                onPress: () => console.log("cancel Pressed") ,
+                style: "cancel"
+            },
+            { text: "OK", onPress: () => {
+                AsyncStorage.clear();
+                navigation.navigate('SplashScreen')
+            }}
+            ]
+        );
+        // TODO:  
+       console.log('signout')
+    //    navigation.navigate('GettingStarted')
       }
     return (
         <SafeAreaView style={styles.container}>
