@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import  Music  from './screens/Music/Music';
 import Setting from './screens/Setting/Setting';
 import Playlists from './screens/Playlists/Playlists';
+import Playlists2 from './screens/Playlists/Playlists2';
 import EditProfile from './screens/EditProfile/EditProfile';
 import {AppLogin} from './AppLogin/AppLogin';
 import {index} from './screens/index';
@@ -48,6 +49,7 @@ function RootNavigator() {
             <Stack.Screen name="Setting" component={Setting} />
             <Stack.Screen name="EditProfile" component={EditProfile} />
             <Stack.Screen name="Playlists" component={Playlists} />
+            <Stack.Screen name="Playlists2" component={Playlists2} />
           
           
         </Stack.Navigator>

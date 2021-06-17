@@ -1,176 +1,211 @@
-import React from 'react';
-import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import {colors} from '../../config/colors';
+import React, { useState, useEffect } from 'react';
+import {View, Text, StyleSheet, ScrollView, Image,TouchableOpacity} from 'react-native';
+ import {colors} from '../../config/colors';
 import {styles} from './styles';
+ 
+import {  URL} from '../../utils';
+import { AppStatus } from '../../../AppStatus';
+import axios from 'axios'
+import { useNavigation } from '@react-navigation/native'; 
+const urls = [
+    {
+     url: require( '../../../assets/images/medicationTypes/1.png'),
+    },
+    {
+        url: require( '../../../assets/images/medicationTypes/2.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/3.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/4.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/5.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/6.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/7.png'),
+       },
+    
+       {
+        url: require( '../../../assets/images/medicationTypes/8.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/9.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/10.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/11.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/12.png'),
+        
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/13.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/14.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/15.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/16.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/17.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/18.png'),
+       },
+       {
+        url: require( '../../../assets/images/medicationTypes/19.png'),
+       },
+      
 
-const meditateTypes = [
-    {
-        title: 'All',
-        isActive: true,
-        imageUrl: require('../../../assets/images/medicationTypes/all.png'),
-    },
-    {
-        title: 'My',
-        isActive: false,
-        imageUrl: require('../../../assets/images/medicationTypes/all.png'),
-    },
-    {
-        title: 'Anxious',
-        isActive: false,
-        imageUrl: require('../../../assets/images/medicationTypes/anxious.png'),
-    },
-    {
-        title: 'Sleep',
-        isActive: false,
-        imageUrl: require('../../../assets/images/medicationTypes/sleep.png'),
-    },
-    {
-        title: 'Kids',
-        isActive: false,
-        imageUrl: require('../../../assets/images/medicationTypes/kids.png'),
-      },
 ]
+ 
+const Album = (props) => {
+    const navigation = useNavigation();
+    const {id} = props;
+   
+    const [genreTitle, setGenreTitle] = React.useState('')
+    const { setPlaylistId } = React.useContext(AppStatus);
+    
 
-export const Meditate = () => {
+    useEffect(() => {
+        axios.get(`${URL}/songs-genre/${id}`)
+       .then(res => {
+       
+       const songs = res.data.songs
+       
+       const result = songs[0].genres.find(item => item.id === id)
+       
+       setGenreTitle(result.genreTitle)
+       })
+       .catch(error => console.log(error));
 
+   }, []);
+
+   const gotoPlaylist = (id) =>{
+    setPlaylistId(id)
+    navigation.navigate('Playlists2')
+   }
+   return (
+       <TouchableOpacity style={styles.card}
+       onPress={() => gotoPlaylist(id)}
+       >
+            <Image style={styles.cardImg}
+            source={urls[id-1].url}
+            />
+            <Text style={styles.card1Txt}>{genreTitle}</Text>
+        </TouchableOpacity>
+
+    );
+};
+
+export default class Meditate extends React.Component  {
+ 
+render() {
     return(
         <View style={styles.container}>
             <Text style={styles.heading}>Meditate</Text>
             <Text style={styles.description}>
-                we can learn how to recognize when our minds are doing their normal
-                everyday acrobatics.
+                Free music store for you to explore.
             </Text>
-            <View>
-                <ScrollView
-                    style={styles.meditateItemWrapperContainer}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                >
-                {meditateTypes.map((item, index) => {
-                   
-                    return(
-                        <View style={styles.meditateItemWrapper} key={index}>
-                            <TouchableOpacity 
-                            
-                                style={[
-                                    styles.meditateItem,
-                                    {
-                                    backgroundColor: item.isActive
-                                        ? colors.primary
-                                        : colors.gray,
-                                    },
-                                ]}>
-                                <Image source={item.imageUrl} />
-                            </TouchableOpacity>
-
-                            <Text
-                                style={[
-                                    styles.itemTitle,
-                                    {color: item.isActive ? colors.heading : colors.gray},
-                                ]}>
-                                {item.title}
-                            </Text>
-
-                        </View>
-                    );
-                })
-                }
-                </ScrollView>
-            </View>
-
+           
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.dailyThoughtsWrapper}>
-                    <Image
-                        style={styles.bgShape1}
-                        source={require('../../../assets/images/bgShape4.png')}
-                        />
-                    <Image
-                        style={styles.bgShape2}
-                        source={require('../../../assets/images/bgShape5.png')}
-                        />
-                    <Image
-                        style={styles.bgShape3}
-                        source={require('../../../assets/images/bgShape6.png')}
-                    />
+             
+                    <View style={styles.medicationTypeCards}>
                     
-                    <View >
-                        <Text style={styles.dailyTitle}>Daily Thought</Text>
-                        <Text style={styles.dailySubTitle}>MEDITATION - 3-10 MIN</Text>
-                    </View>
-                    <View>
-                        <Image source={require('../../../assets/images/player.png')} />
-                    </View>
-                </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={1} ></Album>
+                            <Album id={2} ></Album>
+                            
+                        </View>
 
-                <View style={styles.medicationTypeCards}>
-                    <View style={{flexDirection: 'row'}} >
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg1.png')}
-                            />
-                            <Text style={styles.card1Txt}>7 Days of calm</Text>
-                        </View>
-                        
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg2.png')}
-                            />
-                            <Text style={styles.card1Txt}>Anxiet Release</Text>
-                        </View>
                     </View>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg2.png')}
-                            />
-                            <Text style={styles.card1Txt}>Stress Removal</Text>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={3} ></Album>
+                            <Album id={4} ></Album>
+                            
                         </View>
-                        
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg1.png')}
-                            />
-                            <Text style={styles.card1Txt}>Morning Meditate</Text>
-                        </View>
-                        
+
                     </View>
-                    <View style={{flexDirection: 'row'}}>
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg2.png')}
-                            />
-                            <Text style={styles.card1Txt}>Stress Removal</Text>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={5} ></Album>
+                            <Album id={6} ></Album>
+                            
                         </View>
-                        
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg1.png')}
-                            />
-                            <Text style={styles.card1Txt}>Morning Meditate</Text>
-                        </View>
-                        
+
                     </View>
+                    <View style={styles.medicationTypeCards}>
+                    
                     <View style={{flexDirection: 'row'}}>
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg2.png')}
-                            />
-                            <Text style={styles.card1Txt}>Stress Removal</Text>
-                        </View>
-                        
-                        <View style={styles.card}>
-                            <Image style={styles.cardImg}
-                            source={require('../../../assets/images/medicationTypes/bg1.png')}
-                            />
-                            <Text style={styles.card1Txt}>Morning Meditate</Text>
-                        </View>
+                        <Album id={7} ></Album>
+                        <Album id={8} ></Album>
                         
                     </View>
 
-                </View>
-            </ScrollView>
+                    </View>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={10} ></Album>
+                            <Album id={11} ></Album>
+                            
+                        </View>
+
+                    </View>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={12} ></Album>
+                            <Album id={13} ></Album>
+                            
+                        </View>
+
+                    </View>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={14} ></Album>
+                            <Album id={15} ></Album>
+                            
+                        </View>
+
+                    </View>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={16} ></Album>
+                            <Album id={17} ></Album>
+                            
+                        </View>
+
+                    </View>
+                    <View style={styles.medicationTypeCards}>
+                    
+                        <View style={{flexDirection: 'row'}}>
+                            <Album id={18} ></Album>
+                            <Album id={19} ></Album>
+                            
+                        </View>
+
+                    </View>
+                </ScrollView>
           
         </View>
     );
+    }
 };

@@ -92,7 +92,7 @@ export default function Music() {
           artist: artists[0].artistName,
           artwork: path_img,
           url: path,
-          duration: 3 * 60 + 40
+          duration: 3 * 60 + 49
         })
       );
       setSong(data)
