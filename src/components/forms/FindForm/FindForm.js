@@ -2,25 +2,24 @@ import React from 'react';
 import {View, Text, StyleSheet, TextInput, Image,TouchableOpacity} from 'react-native';
 import {colors} from '../../../config/colors';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { onChange } from 'react-native-reanimated';
 
 export const FindForm = (props) => {
-    const {placeHolder, value} = props;
-    const [text, onChangeText] = React.useState(value);
-    
+    const [text, setText] = React.useState('');
+    const onChange = (text) => {
+      setText(text);
+      props.onSearch(text)
+    }
     return (
         <View style={styles.container}>
             <View style={{marginLeft:5,}}>
                 <MaterialCommunityIcons name="search-web" color="#ccc" size={28} /> 
             </View>
             <TextInput value={text}
-                onChangeText={onChangeText}
+                onChangeText={text => onChange(text)}
                 style={styles.input}
-                placeHolder={placeHolder}
+                placeHolder="search..."
             />
-              <TouchableOpacity style={styles.clearBtn}
-                  onPress={ () => onChangeText({text:""})} >
-                <MaterialCommunityIcons name="close" color="#cccccc" size={20} />
-              </TouchableOpacity> 
         </View>
     );
 };

@@ -3,6 +3,13 @@ import {View, Text, StyleSheet, Image, SafeAreaView, ScrollView,TouchableOpacity
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styles} from '../Profile/styles'
+import { useNavigation } from '@react-navigation/native';
+
+import {  URL} from '../../utils';
+ 
+import useAxios from 'axios-hooks'
+import axios from 'axios'
+
 
 const Action = ({title, iconame, color}) => {
     
@@ -19,19 +26,23 @@ const Action = ({title, iconame, color}) => {
         </View>
     )
 }
-export default class Profile extends React.Component {
-    handleBack = () => {
+export default function Setting()  {
+    const navigation = useNavigation();
+    const handleBack = () => {
         // TODO: Firebase stuff...
-        this.props.navigation.goBack();
+        navigation.goBack();
       }
-    render() {
+      const signout = () => {
+        // TODO: Firebase stuff...
+       console.log('s')
+      }
     return (
         <SafeAreaView style={styles.container}>
             {/* Headers */}
             <View style={styles.header}>
                 <TouchableOpacity 
                 style={styles.headerRightBtnsWrapper}
-                onPress={this.handleBack}>
+                onPress={handleBack}>
                     
                     <MaterialCommunityIcons name="arrow-left-circle-outline" color="#36454f" size={35} />
                 </TouchableOpacity>  
@@ -57,7 +68,9 @@ export default class Profile extends React.Component {
                 <TouchableOpacity style={styles.actions}>
                     <Action title={'Help'} iconame={'account-question'} color={'#88d8b0'}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.actions}>
+                <TouchableOpacity style={styles.actions}
+                onPress={signout}
+                >
                     <Action title={'Sign out'} iconame={'logout-variant'} color={'#88d8b0'}/>
                 </TouchableOpacity>
                 
@@ -65,5 +78,5 @@ export default class Profile extends React.Component {
             </ScrollView>
         </SafeAreaView>
     );
-    }
+    
 };

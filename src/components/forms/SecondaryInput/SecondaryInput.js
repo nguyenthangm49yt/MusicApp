@@ -10,6 +10,7 @@ export const SecondaryInput = (props) => {
                 secureTextEntry={true}
                 style={styles.input}
                 placeHolder={placeHolder}
+                onChangeText = {text => props.onChange(text)}
             />
             <View style={styles.eyeWrapper}>
                 <Image source={require('../../../../assets/images/eye.png')}/>

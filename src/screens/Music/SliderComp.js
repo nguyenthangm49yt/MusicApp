@@ -29,11 +29,7 @@ export default function SliderComp() {
 
   const handleChange = val => {
     TrackPlayer.seekTo(val);
-    TrackPlayer.play().then(() => {
-      setTimeout(() => {
-        setIsSeeking(false);
-      }, 1000);
-    });
+   
   };
 
   //components

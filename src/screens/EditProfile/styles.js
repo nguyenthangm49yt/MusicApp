@@ -65,6 +65,10 @@ export const styles = StyleSheet.create({
     width:340,
     height: 60,
   },
-  
+  input: {
+    padding: 20,
+  //backgroundColor: "#dccddc",
+    width:"90%",
+  },
 
 });

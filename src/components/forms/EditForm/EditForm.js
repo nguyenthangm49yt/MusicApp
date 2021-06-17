@@ -1,12 +1,14 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {View, Text, StyleSheet, TextInput, Image,TouchableOpacity} from 'react-native';
 import {colors} from '../../../config/colors';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-toast-message';
+import useAxios from 'axios-hooks'
+import axios from 'axios'
 export const EditForm = (props) => {
     const {placeHolder, value} = props;
-    const [text, onChangeText] = React.useState(value);
-    
+    const [text, onChangeText] = useState(value);
+   
     return (
         <View style={styles.container}>
             <TextInput value={text}

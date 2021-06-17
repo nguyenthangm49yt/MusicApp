@@ -9,7 +9,6 @@ import  GettingStarted  from '../screens/GettingStarted/GettingStarted';
 
 
 export  function AppLogin() {
-  
   return (
     <LoginNavigator/>
 

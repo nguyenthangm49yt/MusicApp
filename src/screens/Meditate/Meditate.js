@@ -1,6 +1,6 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react-native';
-
+import {View, Text, StyleSheet, ScrollView, Image} from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import {colors} from '../../config/colors';
 import {styles} from './styles';
 

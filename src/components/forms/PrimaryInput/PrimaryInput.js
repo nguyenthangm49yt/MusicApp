@@ -4,14 +4,13 @@ import {colors} from '../../../config/colors';
 
 export const PrimaryInput = (props) => {
   const {placeHolder, isValid, value} = props;
-  const [text, onChangeText] = React.useState(value);
   return (
     <View style={styles.container}>
       <TextInput 
         value={value}
         style={styles.input}
         placeholder={placeHolder}
-        onChangeText={onChangeText} />
+        onChangeText={text => props.onChange(text)} />
       <View style={styles.validityShowWrapper}>
         {isValid ? (
           <Image source={require('../../../../assets/images/checked.png')} />

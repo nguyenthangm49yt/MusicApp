@@ -1,66 +1,105 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import {colors} from '../../config/colors';
 import {styles} from './styles';
-//import { Audio } from 'expo-av';
+import useAxios from "axios-hooks";
+import axios from "axios";
+import {  URL} from '../../utils';
 import { AppStatus } from '../../../AppStatus';
-
-const Recommend = [
-    {
-        id: '1',
-        title: 'Wild Dream',
-        author: 'Taylor Swift',
-        imageUrl: require('../../../assets/images/album.png'),
-        musicUrl: require('../../../assets/music/wild-dream.mp3'),
-    },
-    {
-        id: '2',
-        title: 'See You Again',
-        author: 'Charlie Puth',
-        imageUrl: require('../../../assets/images/album1.jpg'),
-        musicUrl: require('../../../assets/music/see-you-again.mp3'),
-    },
-    {
-        id: '3',
-        title: 'A Thousand Year',
-        author: 'Christina Perri',
-        imageUrl: require('../../../assets/images/album2.jpg'),
-        musicUrl: require('../../../assets/music/A-Thousand-Years.mp3'),
-    },
-    
-]
-
+import { useNavigation } from '@react-navigation/native'; 
+ 
 const MusicItem  = (props) => {
-    const {imageUrl, author, title, musicUrl, id} = props;
+    const {path_img, artists, songTitle, path, id, pid} = props;
     const { setSongId } = React.useContext(AppStatus);
+    const { setPlaylistId } = React.useContext(AppStatus);
 
+    const navigation = useNavigation();
+    const { songId } = React.useContext(AppStatus);
+    
     const onPlay = () => {
-     //  console.log(id)
-        setSongId(id);
+      //console.log(id)
+        setSongId(id.toString());
+        // setPlaylistId(pid.toString());
+        setPlaylistId("");
+        
+        navigation.navigate('Music')
       }
     // phan hien thi
     return (
         <TouchableOpacity style={styles.recommendItem} 
         onPress={onPlay} >
             <View >
-                <Image source={imageUrl} style={styles.imageMusic}/>
+                <Image source={{uri:path_img}} style={styles.imageMusic}/>
             </View>
                 
             <Text
                 style={styles.title}>
-                {title}
+                {songTitle}
             </Text>
             <Text
                 style={styles.author}>
-                {author}
+                {artists}
             </Text>
         </TouchableOpacity>
     );
 };
 
-export default class Home extends React.Component {
+
+const PlaylistItem = (props) => {
+
+    const {  id} = props;
+    // Create state variables
+    const [playlist, setPlaylist] = React.useState([])
+    const [genreTitle, setGenreTitle] = React.useState('')
+    const [genreId, setGenreId] = React.useState('')
+    // fetches data
+
+    
+    useEffect(() => {
+         axios.get(`${URL}/songs-genre/${id}`)
+        .then(res => {
+        
+        const songs = res.data.songs
+        setPlaylist( songs)
+        const result = songs[0].genres.find(item => item.id === id)
+        setGenreId(result.id);
+        setGenreTitle(result.genreTitle)
+        })
+        .catch(error => console.log(error));
+
+    }, []);
    
+    return (
+        <View style={styles.recommendWrapper}>
+ 
+            <Text style={styles.recommendTitle}>{genreTitle} </Text>
+
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>            
+            
+            { playlist?.map((item, index) => {
+
+                return(
+                    <MusicItem key={index}
+                    id={item.id}
+                    pid={genreId}
+                    path_img={item.path_img} 
+                    artists={item.artists.artistName} 
+                    songTitle={item.songTitle} 
+                    path={item.path} />
+
+                )
+                })
+            }
+            
+            </ScrollView>
+         </View>
+    )
+}
+
+export default class Home extends React.Component {
+     
     render(){
+        
         return (
             <View style={styles.container}>
                
@@ -71,7 +110,7 @@ export default class Home extends React.Component {
                
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.header}>
-                        <Text style={styles.heading}>Good Morning, Afsar</Text>
+                        <Text style={styles.heading}>Hello</Text>
                         <Text style={styles.subHeading}>We Wish you have a good day</Text>
                     </View>
                     <View style={styles.sectionWrapper1}>
@@ -156,60 +195,14 @@ export default class Home extends React.Component {
                         </View>
                     </TouchableOpacity>
                     
-                    <View style={styles.recommendWrapper}>
-                        <Text style={styles.recommendTitle}>Recommend for you</Text>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>            
-                            {/* <View style={styles.recommendCard}>
-                                {/* <View style={[
-                                            styles.recommendImgWrapper,
-                                            {backgroundColor: '#afdbc5'},
-                                ]}>
-                                    <Image source={require('../../../assets/images/recommend1.png')}/>
-                                </View>
-                                <View style={styles.recommendCardContentWrapper}>
-                                    <Text style={styles.recommentContentTitle}>Focus</Text>
-                                    <Text style={styles.recommentContentSubTitle}>
-                                        MEDITATION - 3-10 MIN
-                                        
-                                    </Text>
-                                    
-                                </View> 
-                            </View> */}
-                        {Recommend.map((item, index) => {
-    
-                            return(
-                                <MusicItem key={index}
-                                id={item.id} 
-                                imageUrl={item.imageUrl} 
-                                author={item.author} 
-                                title={item.title} 
-                                musicUrl={item.musicUrl} />
-                            );
-                            })
-                        }
-                        
-                        </ScrollView>
-                    </View>
-    
-                    <View style={styles.recommendWrapper}>
-                        <Text style={styles.recommendTitle}>US UK popular song</Text>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>            
-                       
-                        {Recommend.map((item, index) => {
-    
-                            return(
-                                <MusicItem key={index}
-                                id={item.id}
-                                imageUrl={item.imageUrl} 
-                                author={item.author} 
-                                title={item.title} 
-                                musicUrl={item.musicUrl} />
-                            );
-                            })
-                        }
-                        
-                        </ScrollView>
-                    </View>
+                     
+                    <PlaylistItem id={2} ></PlaylistItem>
+                    <PlaylistItem id={3} ></PlaylistItem>
+                    <PlaylistItem id={4} ></PlaylistItem>
+                    <PlaylistItem id={5} ></PlaylistItem>
+                    <PlaylistItem id={6} ></PlaylistItem>
+                    
+                    
                     
                 </ScrollView>
             </View>

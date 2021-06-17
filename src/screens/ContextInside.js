@@ -5,12 +5,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View , Button} from 'react-native';
 import  Home   from './Home/Home';
-import  Music  from '../screens/Music/Music';
+import { Music } from '../screens/Music/Music';
 import { Meditate } from '../screens/Meditate/Meditate';
 import  Profile  from '../screens/Profile/Profile';
 import {FindScreen } from '../screens/FindScreen/FindScreen';
-//import PlayWidget from '../components/PlayWidget/PlayWidget';
-
+ 
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +43,16 @@ export function ContextInside() {
                       ),
                     }}
                   />
-                
+                   {/* <Tab.Screen
+                    name="Music"
+                    component={Music}
+                    options={{
+                      tabBarLabel: 'Music',
+                      tabBarIcon: ({ color, size }) => (
+                        <MaterialCommunityIcons name="music-circle" color={'#7583CA'} size={size} />
+                      ),
+                    }}
+                    /> */}
                   <Tab.Screen
                     name="FindScreen"
                     component={FindScreen}
