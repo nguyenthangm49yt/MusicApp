@@ -58,17 +58,25 @@ export const styles = StyleSheet.create({
   titleForm:{
     marginTop:10,
     marginLeft:6,
+    fontSize: 16,
+    fontWeight: "bold",
     //backgroundColor: "#fe9c8f",
     
   },
   form:{
     width:340,
     height: 60,
+    
   },
   input: {
-    padding: 20,
-  //backgroundColor: "#dccddc",
-    width:"90%",
+    padding: 10,
+    marginTop:5,
+    //backgroundColor: "#dccddc",
+    borderWidth: 1,
+    width:"80%",
+    borderRadius:15,
+    borderColor: "#cccccc",
+    fontSize: 16,
   },
 
 });

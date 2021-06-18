@@ -90,8 +90,8 @@ export const styles = StyleSheet.create({
    
   },
   card: {
-    marginBottom: 25,
-    marginRight: 10
+    marginBottom: 20,
+    marginRight: 20
     //backgroundColor: "#ccc",
   },
   cardImg: {

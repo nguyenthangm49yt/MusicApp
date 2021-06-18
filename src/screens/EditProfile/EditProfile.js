@@ -173,6 +173,8 @@ export default function EditProfile(props) {
             </View>
           </View>
         </View>
+
+        <Text style={styles.titleForm}>User's name</Text>
         <TextInput
           value={username}
           onChangeText={onChangeUserName}
@@ -180,6 +182,7 @@ export default function EditProfile(props) {
           placeHolder="username"
         />
 
+        <Text style={styles.titleForm}>Phone</Text>
         <TextInput
           value={phone}
           onChangeText={onChangePhone}

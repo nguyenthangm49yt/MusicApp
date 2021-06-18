@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     input: {
         
       padding: 5,
-     // backgroundColor: "#dccddc",
+     //  backgroundColor: "#dccddc",
       width:"79%",
     },
     clearBtn:{

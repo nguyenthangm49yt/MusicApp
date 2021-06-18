@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView, Dimensions} from 'react-native';
 import {colors} from '../../config/colors';
 import {styles} from './styles';
 import useAxios from "axios-hooks";
@@ -7,7 +7,12 @@ import axios from "axios";
 import {  URL} from '../../utils';
 import { AppStatus } from '../../../AppStatus';
 import { useNavigation } from '@react-navigation/native'; 
+import Carousel from '../../components/Carousel/Carousel'
+import { urlCarousel } from '../../components/Carousel/Data'
+
+
  
+
 const MusicItem  = (props) => {
     const {path_img, artists, songTitle, path, id, pid} = props;
     const { setSongId } = React.useContext(AppStatus);
@@ -74,6 +79,7 @@ const PlaylistItem = (props) => {
  
             <Text style={styles.recommendTitle}>{genreTitle} </Text>
 
+
             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>            
             
             { playlist?.map((item, index) => {
@@ -97,7 +103,13 @@ const PlaylistItem = (props) => {
 }
 
 export default class Home extends React.Component {
-     
+    _renderItem = ({item, index}) => {
+        return (
+            <View style={styles.slide}>
+                <Text style={styles.title}>{ item.title }</Text>
+            </View>
+        );
+    }
     render(){
         
         return (
@@ -114,6 +126,8 @@ export default class Home extends React.Component {
                         <Text style={styles.subHeading}>We Wish you have a good day</Text>
                     </View>
                     
+                    <Carousel data = {urlCarousel}/>
+
                     <PlaylistItem id={2} ></PlaylistItem>
                     <PlaylistItem id={3} ></PlaylistItem>
                     <PlaylistItem id={4} ></PlaylistItem>

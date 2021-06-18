@@ -29,6 +29,7 @@ import SliderComp from './SliderComp';
 import {PLAYBACK_TRACK_CHANGED} from 'react-native-track-player/lib/eventTypes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native'; 
 
 const {width, height} = Dimensions.get('window');
  
@@ -53,6 +54,7 @@ const TRACK_PLAYER_CONTROLS_OPTS = {
 };
 
 export default function Music() {
+  const navigation = useNavigation();
  // using for load songs
   const [songs, setSong] = React.useState([]);
   const { songId } = React.useContext(AppStatus);
@@ -198,7 +200,7 @@ export default function Music() {
   // change the song when index changes
   useEffect(() => {
     if (isPlayerReady.current) {
-      TrackPlayer.skip(songs[songIndex].id)
+      TrackPlayer.skip(songs[songIndex]?.id)
         .then(_ => {
           console.log('changed track');
         })
@@ -255,7 +257,9 @@ export default function Music() {
         });
   }
 
-
+  const handlegoBack=()=>{
+    navigation.goBack();
+  }
   const renderItem = ({index, item}) => {
     return (
       <Animated.View
@@ -282,11 +286,29 @@ export default function Music() {
   return (
         <SafeAreaView style={styles.container}>
           <Toast ref={(ref) => Toast.setRef(ref)} />
-          <TouchableOpacity style={styles.likeBtn}
-                    onPress={handleLikebtn}
-                    >
-                        <MaterialCommunityIcons name={0 ? 'cards-heart' :  'heart-outline'} color="#000" size={33} />   
-           </TouchableOpacity>
+
+
+          {/* button go back screen */}
+          <View style={styles.headerWrapper}>
+                <TouchableOpacity style={styles.headerLeftBtnsWrapper}
+                onPress={handlegoBack}
+              >
+                    <MaterialCommunityIcons
+                      name="arrow-left-circle-outline"
+                      color="#36454f"
+                      size={35}
+                    />
+                </TouchableOpacity>
+                
+                <View style={{width:'60%',}}></View>
+           {/* button add to favorite screen */}
+                <TouchableOpacity style={styles.likeBtn}
+                          onPress={handleLikebtn}
+                          >
+                              <MaterialCommunityIcons name={0 ? 'cards-heart' :  'heart-outline'} color="#000" size={33} />   
+                </TouchableOpacity>
+           </View>
+          
           
           <SafeAreaView style={{height: 320, marginTop: 20,}}>
             <Animated.FlatList
@@ -305,8 +327,8 @@ export default function Music() {
             />
           </SafeAreaView>
           <View>
-            <Text style={styles.title}>{songs.length ? songs[songIndex].title : ""}</Text>
-            <Text style={styles.artist}>{songs.length ? songs[songIndex].artist : ""}</Text>
+            <Text style={styles.title}>{songs.length ? songs[songIndex]?.title : ""}</Text>
+            <Text style={styles.artist}>{songs.length ? songs[songIndex]?.artist : ""}</Text>
           </View>
 
           <SliderComp />
@@ -337,8 +359,22 @@ const styles = StyleSheet.create({
     maxHeight: 600,
   },
   likeBtn: {
-    right:20,
     
+    right:20,
+    marginLeft:50,
+    
+  },
+
+  headerLeftBtnsWrapper:{
+
+  },
+  headerWrapper:{
+    
+    marginTop: 15,
+    flexDirection: 'row',
+   // justifyContent: 'flex-end',
+   alignItems: "flex-start",
+
     
   }
 });
