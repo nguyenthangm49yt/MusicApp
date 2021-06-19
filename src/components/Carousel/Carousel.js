@@ -4,7 +4,7 @@ import CarouselItem from './CarouselItem'
 
 
 const { width, heigth } = Dimensions.get('window')
-let flatList
+let flatList = null
 
 function infiniteScroll(dataList){
     const numberOfData = dataList.length
@@ -20,7 +20,7 @@ function infiniteScroll(dataList){
             scrolled = 0
         }
 
-        this.flatList.scrollToOffset({ animated: true, offset: scrollValue})
+        this.flatList?.scrollToOffset({ animated: true, offset: scrollValue})
         
     }, 3000)
 }
@@ -41,7 +41,7 @@ const Carousel = ({ data }) => {
         return (
             <View>
                 <FlatList data={data}
-                ref = {(flatList) => {this.flatList = flatList}}
+                ref = {(flatList) => {this.flatList = flatList }}
                     keyExtractor={(item, index) => 'key' + index}
                     horizontal
                     pagingEnabled

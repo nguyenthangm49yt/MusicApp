@@ -36,11 +36,13 @@ const Action = ({ title, iconame, color }) => {
 
 export default function Profile(props) {
   const [user, setUser] = useState({username:'',phone:''});
+  
   _retrieveData = async () => {
     try {
       const value = await AsyncStorage.getItem("access_token");
         let user = JSON.parse(value);
         setUser(user);
+       
     } catch (error) {
       // Error retrieving data
     }
@@ -102,7 +104,7 @@ export default function Profile(props) {
           <View style={styles.profileInfos}>
             <View style={styles.nameSection}>
               <Text style={styles.nameSectionAcc}>{user.username}</Text>
-              <Text style={{ color: colors.white }}>{user.phone}</Text>
+              <Text style={{ color: colors.white }}>+84{user.phone}</Text>
             </View>
           </View>
         </View>

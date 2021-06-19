@@ -56,6 +56,7 @@ export default function Playlists()  {
       navigation.navigate('Music')
     }
 
+   
     
     const handleAdd = () => {
         // TODO:  
@@ -87,7 +88,7 @@ export default function Playlists()  {
                     
                     <MaterialCommunityIcons name="arrow-left-circle-outline" color="#36454f" size={35} />
                 </TouchableOpacity>  
-                <Text style={styles.headerTitle}>Playlist</Text>
+                <Text style={styles.headerTitle}>Favorite list</Text>
                 <TouchableOpacity 
                 style={styles.headerRightBtnsWrapper}
                 onPress={handleAdd}>

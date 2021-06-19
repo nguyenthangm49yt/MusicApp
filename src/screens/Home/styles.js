@@ -134,7 +134,7 @@ export const styles = StyleSheet.create({
         fontFamily: fonts.font,
     },
     recommendWrapper: {
-        marginTop: 20,
+        marginTop: 10,
         
     },
     recommendTitle: {

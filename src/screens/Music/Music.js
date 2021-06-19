@@ -25,7 +25,7 @@ import axios from "axios";
 import {  URL} from '../../utils';
 import { AppStatus } from '../../../AppStatus';
 import Controller from './Controller';
-import SliderComp from './SliderComp';
+import SliderComponent from './SliderComponent';
 import {PLAYBACK_TRACK_CHANGED} from 'react-native-track-player/lib/eventTypes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-toast-message';
@@ -94,7 +94,7 @@ export default function Music() {
           artist: artists[0].artistName,
           artwork: path_img,
           url: path,
-          duration: 3 * 60 + 49
+          duration: 4 * 60 + 2
         })
       );
       setSong(data)
@@ -120,13 +120,12 @@ export default function Music() {
           artist: artists[0].artistName,
           artwork: song[0].path_img,
           url: song[0].path,
-          duration: 3 * 60 + 40
+          duration: 3 * 60 + 54
         })
       );
 
         setSong(data)
-        // console.log('d',songId);
-        // console.log('pid',playlistId);
+        
       })
       .catch(error => console.log(error));
     }
@@ -138,14 +137,9 @@ export default function Music() {
         });
 
         TrackPlayer.setupPlayer().then(async () => {
-          // The player is ready to be used
-          console.log('Player ready', songs);
-
-          // add the array of songs in the playlist
+         
           await TrackPlayer.reset();
-
-      
-            
+ 
           await TrackPlayer.add(songs);
           TrackPlayer.play();
           isPlayerReady.current = true;
@@ -154,12 +148,9 @@ export default function Music() {
 
           //add listener on track change
           TrackPlayer.addEventListener(PLAYBACK_TRACK_CHANGED, async e => {
-            console.log('song ended', e);
-
+           
             const trackId = (await TrackPlayer.getCurrentTrack()) - 1; //get the current id
-
-            console.log('track id', trackId, 'index', index.current);
-
+ 
             if (trackId !== index.current) {
               setSongIndex(trackId);
               isItFromUser.current = true;
@@ -169,19 +160,16 @@ export default function Music() {
               } else {
                 goPrv();
               }
-              // setTimeout(() => {
-              //   isItFromUser.current = true;
-              // }, 200);
+              
             }
-
-            // isPlayerReady.current = true;
+ 
           });
 
-          // monitor intterupt when other apps start playing music
+          // quan li xung dot khi app khac mo nhac
           TrackPlayer.addEventListener(TrackPlayerEvents.REMOTE_DUCK, e => {
-            // console.log(e);
+             
             if (e.paused) {
-              // if pause true we need to pause the music
+               
               TrackPlayer.pause();
             } else {
               TrackPlayer.play();
@@ -192,32 +180,30 @@ export default function Music() {
     return () => {
       scrollX.removeAllListeners();
        
-
-      // exitPlayer();
     };
   }, [scrollX,songs]);
 
-  // change the song when index changes
+  // thay doi bai hat khi index thay doi
   useEffect(() => {
     if (isPlayerReady.current) {
       TrackPlayer.skip(songs[songIndex]?.id)
         .then(_ => {
           console.log('changed track');
         })
-        .catch(e => console.log('error in changing track ', e));
+        .catch(e => console.log('error',e));
     }
     index.current = songIndex;
   }, [songIndex]);
 
   const goNext = async () => {
-    slider.current.scrollToOffset({
+    slider.current?.scrollToOffset({
       offset: (index.current + 1) * width,
     });
 
     await TrackPlayer.play();
   };
   const goPrv = async () => {
-    slider.current.scrollToOffset({
+    slider.current?.scrollToOffset({
       offset: (index.current - 1) * width,
     });
 
@@ -226,7 +212,7 @@ export default function Music() {
 
   const handleLikebtn = () => {
     const _storeData = async (response) => {
-      console.log(response.data)
+    
       let jsonValue = JSON.stringify(response.data);
       try {
         await AsyncStorage.setItem(
@@ -331,7 +317,7 @@ export default function Music() {
             <Text style={styles.artist}>{songs.length ? songs[songIndex]?.artist : ""}</Text>
           </View>
 
-          <SliderComp />
+          <SliderComponent />
 
           <Controller onNext={goNext} onPrv={goPrv} />
         </SafeAreaView>

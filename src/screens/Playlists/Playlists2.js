@@ -30,22 +30,23 @@ export const Action = ({name, author, iconame, color, path_img}) => {
 
 export default function Playlists2()  {
     const { setSongId } = React.useContext(AppStatus);
+    const { songId } = React.useContext(AppStatus);
     const { setPlaylistId } = React.useContext(AppStatus);
-
     const { playlistId } = React.useContext(AppStatus);
+    
     const [genreTitle, setGenreTitle] = React.useState('')
 
     const [playlist, setPlaylist] = React.useState([])
     const navigation = useNavigation();
-   
+    const pID = playlistId;
     useEffect(() => {
-        axios.get(`${URL}/songs-genre/${playlistId}`)
+        axios.get(`${URL}/songs-genre/${pID}`)
        .then(res => {
        
        const songs = res.data.songs
        setPlaylist( songs)
 
-       const result = songs[0].genres.find(item => item.id === playlistId)
+       const result = songs[0].genres.find(item => item.id === pID)
       
        setGenreTitle(result.genreTitle)
       
@@ -59,10 +60,18 @@ export default function Playlists2()  {
     //console.log(id)
       setSongId(id.toString());
       // setPlaylistId(pid.toString());
-      setPlaylistId(playlistId);
+      setPlaylistId("");
       
       navigation.navigate('Music')
     }
+
+    const onPlayAll =  () => {
+          setSongId(songId);
+          setPlaylistId(pID);
+           
+          console.log(pID)
+          navigation.navigate('Music')
+        }
 
     
     const handleAdd = () => {
@@ -115,7 +124,13 @@ export default function Playlists2()  {
                     <View style={styles.playlistInfos}>
                         <View style={styles.nameSection}>
                             <Text style={styles.nameSectionTitle}>{genreTitle}</Text>
-                            <Text style={{color: colors.white}}>các bài hát thuộc thể loại {genreTitle}</Text>
+                            <TouchableOpacity style={{color: colors.white, padding:5, marginTop:10, backgroundColor: 'white'}}
+                            onPress={onPlayAll}
+                            >
+                                <Text>
+                                Play All song
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </View>
@@ -126,7 +141,7 @@ export default function Playlists2()  {
                     return(
                         <TouchableOpacity style={styles.actions}
                         onPress={() => onPlay(item.id,"")}>
-                           <Action name={item.songTitle} author={ ''}
+                           <Action key={index} name={item.songTitle} author={ ''}
                            path_img={item.path_img}
                            iconame={'heart-multiple-outline'} color={'#fe4a49'}/>
                        </TouchableOpacity>

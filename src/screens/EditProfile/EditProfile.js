@@ -169,7 +169,7 @@ export default function EditProfile(props) {
           <View style={styles.profileInfos}>
             <View style={styles.nameSection}>
               <Text style={styles.nameSectionAcc}>{username}</Text>
-              <Text style={{ color: colors.white }}>{phone}</Text>
+              <Text style={{ color: colors.white }}>+84{phone}</Text>
             </View>
           </View>
         </View>
@@ -184,7 +184,8 @@ export default function EditProfile(props) {
 
         <Text style={styles.titleForm}>Phone</Text>
         <TextInput
-          value={phone}
+          value={"0" + phone?.toString()}
+          keyboardType = 'numeric'
           onChangeText={onChangePhone}
           style={styles.input}
           placeHolder="phone"

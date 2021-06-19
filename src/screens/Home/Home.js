@@ -9,6 +9,7 @@ import { AppStatus } from '../../../AppStatus';
 import { useNavigation } from '@react-navigation/native'; 
 import Carousel from '../../components/Carousel/Carousel'
 import { urlCarousel } from '../../components/Carousel/Data'
+import { LogBox } from 'react-native';
 
 
  
@@ -103,6 +104,7 @@ const PlaylistItem = (props) => {
 }
 
 export default class Home extends React.Component {
+    
     _renderItem = ({item, index}) => {
         return (
             <View style={styles.slide}>
@@ -111,7 +113,7 @@ export default class Home extends React.Component {
         );
     }
     render(){
-        
+        LogBox.ignoreAllLogs()
         return (
             <View style={styles.container}>
                

@@ -5,7 +5,7 @@ import TrackPlayer, {usePlaybackState} from 'react-native-track-player';
 import {useTrackPlayerProgress} from 'react-native-track-player/lib/hooks';
 import {PLAYBACK_TRACK_CHANGED} from 'react-native-track-player/lib/eventTypes';
 
-export default function SliderComp() {
+export default function SliderComponent() {
   const {position, duration} = useTrackPlayerProgress(1000, null);
   const [isSeeking, setIsSeeking] = useState(false);
   const [seek, setSeek] = useState(0);
